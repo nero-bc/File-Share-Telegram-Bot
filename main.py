@@ -1,5 +1,5 @@
 import uvloop
-from bot import Bot
+from fsub import Bot
 
 uvloop.install()
 Bot().run()

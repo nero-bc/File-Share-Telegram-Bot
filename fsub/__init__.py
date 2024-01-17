@@ -1,11 +1,8 @@
-# CodeXBotz
-# mrismanaziz
-
-from sys import exit
+import sys
 
 from hydrogram import Client
 
-from config import (
+from fsub.config import (
     CHANNEL_DB,
     FORCE_SUB_,
     LOGGER,
@@ -28,16 +25,16 @@ class Bot(Client):
     async def start(self):
         try:
             await super().start()
-            usr_bot_me = await self.get_me()
-            self.username = usr_bot_me.username
-            self.namebot = usr_bot_me.first_name
+            is_bot = await self.get_me()
+            self.username = is_bot.username
+            self.namebot = is_bot.first_name
             self.LOGGER(__name__).info(
                 f"BOT_TOKEN detected!\n"
                 f"  Username: @{self.username}\n\n"
             )
         except Exception as e:
             self.LOGGER(__name__).warning(e)
-            exit()
+            sys.exit()
 
         for key, channel_id in FORCE_SUB_.items():
             try:
@@ -58,7 +55,7 @@ class Bot(Client):
                     f"Pastikan @{self.username} "
                     f"menjadi Admin di FORCE_SUB_{key}\n\n"
                 )
-                exit()
+                sys.exit()
 
         try:
             db_channel = await self.get_chat(CHANNEL_DB)
@@ -75,7 +72,7 @@ class Bot(Client):
                 f"Pastikan @{self.username} "
                 "menjadi Admin di CHANNEL_DB\n\n"
             )
-            exit()
+            sys.exit()
 
         self.LOGGER(__name__).info(
             "Bot Aktif!\n\n"

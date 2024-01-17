@@ -1,13 +1,10 @@
-# CodeXBotz 
-# mrismanaziz
-
 import asyncio
 
 from datetime import datetime
 from time import time
 
-from bot import Bot
-from config import (
+from fsub import Bot
+from fsub.config import (
     ADMINS,
     CUSTOM_CAPTION,
     DISABLE_BUTTON,
@@ -15,23 +12,23 @@ from config import (
     RESTRICT,
     START_MESSAGE,
 )
-from database.mongo import add_user, del_user, full_userbase, present_user
+from fsub.database import add_user, del_user, full_userbase, present_user
 
 from hydrogram import filters
 from hydrogram.errors import FloodWait
 from hydrogram.types import InlineKeyboardMarkup, Message
 
-from helper_func import(
+from fsub.func import(
     decode,
     get_messages, 
-    subs,
+    is_subscriber,
 )
 
-from .button import fsub_button, start_button
+from fsub.button import fsub_button, start_button
 
 START_TIME = datetime.utcnow()
 START_TIME_ISO = START_TIME.replace(microsecond=0).isoformat()
-TIME_DURATION_UNITS = (
+TIME_DURATION = (
     ("week", 60 * 60 * 24 * 7),
     ("day", 60**2 * 24),
     ("hour", 60**2),
@@ -40,23 +37,23 @@ TIME_DURATION_UNITS = (
 )
 
 
-async def _human_time_duration(seconds):
+async def time_duration(seconds):
     if seconds == 0:
         return "inf"
     parts = []
-    for unit, div in TIME_DURATION_UNITS:
+    for unit, div in TIME_DURATION:
         amount, seconds = divmod(int(seconds), div)
         if amount > 0:
             parts.append(f'{amount} {unit}{"" if amount == 1 else "s"}')
     return ", ".join(parts)
 
 
-@Bot.on_message(filters.command("start") & filters.private & subs )
+@Bot.on_message(filters.command("start") & filters.private & is_subscriber )
 async def start_command(client: Bot, message: Message):
     id = message.from_user.id
-    if not await present_user(id):
+    if not present_user(id):
         try:
-            await add_user(id)
+            add_user(id)
         except Exception:
             pass
     text = message.text
@@ -92,8 +89,7 @@ async def start_command(client: Bot, message: Message):
         try:
             messages = await get_messages(client, ids)
         except Exception:
-            await message.reply_text("Error!")
-            return
+            return await message.reply_text("Error!")
         await temp_msg.delete()
 
         for msg in messages:
@@ -124,7 +120,7 @@ async def start_command(client: Bot, message: Message):
             except Exception:
                 pass
     else:
-        buttons = start_button(client)
+        buttons = await start_button(client)
         await message.reply_text(
             text=START_MESSAGE.format(
                 first=message.from_user.first_name,
@@ -143,9 +139,9 @@ async def start_command(client: Bot, message: Message):
     return
 
 
-@Bot.on_message(filters.command("start") & filters.private)
+@Bot.on_message(filters.command("start") & filters.private & ~is_subscriber)
 async def not_joined(client: Bot, message: Message):
-    buttons = fsub_button(client, message)
+    buttons = await fsub_button(client, message)
     await message.reply(
         text=FORCE_MESSAGE.format(
             first=message.from_user.first_name,
@@ -165,15 +161,13 @@ async def not_joined(client: Bot, message: Message):
 @Bot.on_message(filters.command('users') & filters.private & filters.user(ADMINS))
 async def get_users(client: Bot, message: Message):
     msg = await client.send_message(message.chat.id, "Mengecek...")
-    users = await full_userbase()
-    await msg.edit(f"{len(users)} Pengguna Bot")
+    await msg.edit(f"{len(full_userbase())} Pengguna Bot")
 
 
 
 @Bot.on_message(filters.command("broadcast") & filters.user(ADMINS))
 async def send_text(client: Bot, message: Message):
     if message.reply_to_message:
-        query = await full_userbase()
         broadcast_msg = message.reply_to_message
         total = 0
         successful = 0
@@ -182,7 +176,7 @@ async def send_text(client: Bot, message: Message):
         please_wait = await message.reply(
             "Mengirim pesan siaran..."
         )
-        for chat_id in query:
+        for chat_id in full_userbase():
             try:
                 await broadcast_msg.copy(chat_id, protect_content=RESTRICT)
                 successful += 1
@@ -191,7 +185,7 @@ async def send_text(client: Bot, message: Message):
                 await broadcast_msg.copy(chat_id, protect_content=RESTRICT)
                 successful += 1
             except Exception:
-                await del_user(chat_id)
+                del_user(chat_id)
                 unsuccessful += 1
                 pass
             total += 1
@@ -211,21 +205,21 @@ Gagal: {unsuccessful}
 
 
 @Bot.on_message(filters.command("ping"))
-async def ping_pong(client, m: Message):
+async def ping_pong(_, message: Message):
     start = time()
-    m_reply = await m.reply_text("...")
-    delta_ping = time() - start
-    await m_reply.edit_text(
-        f"Hasil: {delta_ping * 1000:.3f}ms"
+    reply = await message.reply_text("...")
+    laten = time() - start
+    await reply.edit_text(
+        f"Hasil: {laten * 1000:.3f}ms"
     )
 
 
 @Bot.on_message(filters.command("uptime"))
-async def get_uptime(client, m: Message):
+async def get_uptime(_, message: Message):
     current_time = datetime.utcnow()
     uptime_sec = (current_time - START_TIME).total_seconds()
-    uptime = await _human_time_duration(int(uptime_sec))
-    await m.reply_text(
+    uptime = await time_duration(int(uptime_sec))
+    await message.reply_text(
         f"Waktu Aktif: {uptime}\n"
         f"Sejak: {START_TIME_ISO}"
     )
