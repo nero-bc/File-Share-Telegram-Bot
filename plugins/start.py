@@ -119,6 +119,8 @@ async def start_command(client: Bot, message: Message):
                 )
             except Exception:
                 pass
+        return
+        
     else:
         buttons = await start_button(client)
         await message.reply_text(
@@ -135,8 +137,7 @@ async def start_command(client: Bot, message: Message):
             disable_web_page_preview=True,
             quote=True,
         )
-
-    return
+        return
 
 
 @Bot.on_message(filters.command("start") & filters.private & ~is_subscriber)
