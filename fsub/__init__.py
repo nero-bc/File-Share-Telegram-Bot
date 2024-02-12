@@ -54,8 +54,8 @@ class Bot(Client):
             except Exception as e:
                 self.LOGGER(__name__).warning(e)
                 self.LOGGER(__name__).warning(
-                    f"Pastikan @{self.username} "
-                    f"menjadi Admin di FORCE_SUB_{key}\n\n"
+                    f"Make sure @{self.username} "
+                    f"to be admin at FORCE_SUB_{key}\n\n"
                 )
                 sys.exit()
 
@@ -71,15 +71,15 @@ class Bot(Client):
         except Exception as e:
             self.LOGGER(__name__).warning(e)
             self.LOGGER(__name__).warning(
-                f"Pastikan @{self.username} "
-                "menjadi Admin di CHANNEL_DB\n\n"
+                f"Make sure @{self.username} "
+                "to be admin at CHANNEL_DB\n\n"
             )
             sys.exit()
 
         self.LOGGER(__name__).info(
-            "Bot Aktif!\n\n"
+            "Bot started !\n\n"
         )
 
     async def stop(self, *args):
         await super().stop()
-        self.LOGGER(__name__).info("Bot Berhenti!\n\n")
+        self.LOGGER(__name__).info("Bot Stopped!\n\n")
