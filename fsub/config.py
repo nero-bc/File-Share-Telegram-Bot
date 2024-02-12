@@ -13,7 +13,7 @@ CHANNEL_DB = int(getenv("CHANNEL_DB"))
 DATABASE_URL = getenv("DATABASE_URL")
 DATABASE_NAME = getenv("DATABASE_NAME")
 
-RESTRICT = getenv("RESTRICT", True)
+RESTRICT = getenv("RESTRICT")
 
 BUTTON_ROW = int(getenv("BUTTON_ROW", 2))
 FORCE_SUB_ = {}
@@ -28,23 +28,23 @@ while True:
 
 START_MESSAGE = getenv(
     "START_MESSAGE",
-    "Halo {mention}!"
+    "<b>Hello {mention}!</b>"
     "\n\n"
-    "Saya dapat menyimpan file pribadi di Channel tertentu dan pengguna lain dapat mengaksesnya dari link khusus.",
-)
+    "<b>I can save private files on a specific Channel and other users can access them from a special link.</b>",
+)‌‌
 FORCE_MESSAGE = getenv(
     "FORCE_MESSAGE",
-    "Halo {mention}!"
+    "<b>Hello {mention}!</b>"
     "\n\n"
-    "Anda harus bergabung di Channel/Group terlebih dahulu untuk melihat file yang saya bagikan."
+    "<b>You must join the Channel/Group first to see the files I share.</b>"
     "\n\n"
-    "Silakan Join Ke Channel/Group terlebih dahulu.",
-)
+    "Please join the channel/group first.</b>",
+)‌‌
 
 ADMINS = [int(x) for x in (getenv("ADMINS").split())]
     
 CUSTOM_CAPTION = getenv("CUSTOM_CAPTION", None)
-DISABLE_BUTTON = getenv("DISABLE_BUTTON", False)
+DISABLE_BUTTON = getenv("DISABLE_BUTTON")
 
 
 basicConfig(level=INFO, format="[%(levelname)s] - %(message)s")
