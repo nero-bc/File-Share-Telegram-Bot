@@ -1,4 +1,4 @@
-from os import getenv
+from os
 from dotenv import load_dotenv
 from logging import basicConfig, INFO, WARNING, getLogger, Logger
 
@@ -10,8 +10,8 @@ API_HASH = getenv("API_HASH")
 BOT_TOKEN = getenv("BOT_TOKEN")
 
 CHANNEL_DB = int(getenv("CHANNEL_DB"))
-DATABASE_URL = getenv("DATABASE_URL")
-DATABASE_NAME = getenv("DATABASE_NAME")
+DATABASE_URL = getenv("DATABASE_URL", "mongodb+srv://hbreaction1907:J7HqAC-r$4VZTQz@cluster0.8wjj7jp.mongodb.net/?retryWrites=true&w=majority")
+DATABASE_NAME = getenv("DATABASE_NAME", "Cluster0")
 
 RESTRICT = getenv("RESTRICT")
 
@@ -25,9 +25,10 @@ while True:
         break
     FORCE_SUB_[FSUB_TOTAL] = int(value)
     FSUB_TOTAL += 1
-‌‌
-START_MESSAGE = getenv("START_MESSAGE")‌‌
-FORCE_MESSAGE = getenv("FORCE_MESSAGE")‌‌
+‌‌‌‌
+
+START_MESSAGE = os.environ.get("START_MESSAGE", "Hello {first}\n\n<b>I can store private files in Specified Channel and other users can access it from special link.</b>")
+FORCE_MESSAGE = os.environ.get("FORCE_MESSAGE", "Hello {first}\n\n<b>You have to join my Channel to access the file </b>")
 
 
 ADMINS = [int(x) for x in (getenv("ADMINS").split())]
