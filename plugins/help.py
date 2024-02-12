@@ -7,39 +7,38 @@ from hydrogram.types import InlineKeyboardButton
 
 class Data:
     HELP = """
-/start: Mulai bot
-/help: Bantuan dan tentang bot
-/ping: Cek latensi bot
-/uptime: Cek waktu aktif bot
-/users: Statistik pengguna bot (Admin)
-/batch: Multi post dalam satu link (Admin)
-/broadcast: Pesan siaran ke pengguna bot (Admin)
+/start: Start the bot
+/help: Help and about bots
+/ping: Check bot latency
+/uptime: Check bot uptime
+/users: Bot user statistics (Admin)
+/batch: Multi posts in one link (Admin)
+/broadcast: Broadcast message to bot users (Admin)‌‌
 """
 
     close = [
-        [InlineKeyboardButton("Tutup", callback_data="close")]
+        [InlineKeyboardButton("Close", callback_data="close")]
     ]
 
     mbuttons = [
         [
-            InlineKeyboardButton("Bantuan", callback_data="help"),
-            InlineKeyboardButton("Tutup", callback_data="close")
+            InlineKeyboardButton("Help", callback_data="help"),
+            InlineKeyboardButton("Close", callback_data="close")
         ],
     ]
 
     buttons = [
         [
-            InlineKeyboardButton("Tentang", callback_data="about"),
-            InlineKeyboardButton("Tutup", callback_data="close")
+            InlineKeyboardButton("About", callback_data="about"),
+            InlineKeyboardButton("close", callback_data="close")
         ],
     ]
 
     ABOUT = """
-@{} adalah Bot untuk menyimpan postingan atau file yang dapat diakses melalui link khusus.
+@{} is a bot for saving posts or files that can be accessed via a special link.
 
   Framework: <a href='https://docs.hydrogram.org'>hydrogram</a>
-  Re-Code From: <a href='https://github.com/mrismanaziz/File-Sharing-Man'>File-Sharing-Man</a>
-"""
+  Bot Developer: <a href='https://t.me/StupidBoi69'>This Person</a>"""
 
 
 @Bot.on_message(filters.private & filters.incoming & filters.command("help"))
