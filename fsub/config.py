@@ -1,4 +1,4 @@
-from os
+from os import getenv
 from dotenv import load_dotenv
 from logging import basicConfig, INFO, WARNING, getLogger, Logger
 
@@ -27,8 +27,8 @@ while True:
     FSUB_TOTAL += 1
 ‌‌‌‌
 
-START_MESSAGE = os.environ.get("START_MESSAGE", "Hello {first}\n\n<b>I can store private files in Specified Channel and other users can access it from special link.</b>")
-FORCE_MESSAGE = os.environ.get("FORCE_MESSAGE", "Hello {first}\n\n<b>You have to join my Channel to access the file </b>")
+START_MESSAGE = getenv("START_MESSAGE", "Hello {first}\n\n<b>I can store private files in Specified Channel and other users can access it from special link.</b>")
+FORCE_MESSAGE = getenv("FORCE_MESSAGE", "Hello {first}\n\n<b>You have to join my Channel to access the file </b>")
 
 
 ADMINS = [int(x) for x in (getenv("ADMINS").split())]
