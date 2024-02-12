@@ -6,6 +6,8 @@ from fsub.config import (
     CHANNEL_DB,
     FORCE_SUB_,
     LOGGER,
+    API_ID,
+    API_HASH,
     BOT_TOKEN,
 )
 
@@ -14,8 +16,8 @@ class Bot(Client):
     def __init__(self):
         super().__init__(
             name="Bot",
-            api_id=2040,
-            api_hash="b18441a1ff607e10a989891a5462e627",
+            api_id=API_ID,
+            api_hash=API_HASH,
             plugins={"root": "plugins"},
             bot_token=BOT_TOKEN,
             in_memory=True,
