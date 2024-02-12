@@ -11,7 +11,7 @@ async def batch(client: Bot, message: Message):
     while True:
         try:
             first_message = await client.ask(
-                text="Teruskan pesan pertama atau paste link post dari CHANNEL_DB",
+                text="<b>Forward The Batch First Message (with forward tag)\nor Give Me Batch First Message Link From Your Database Channel.</b>",
                 chat_id=message.from_user.id,
                 filters=(filters.forwarded | (filters.text & ~filters.forwarded)),
                 timeout=60,
@@ -30,7 +30,7 @@ async def batch(client: Bot, message: Message):
     while True:
         try:
             second_message = await client.ask(
-                text="Teruskan pesan akhir atau paste link post dari CHANNEL_DB",
+                text="<b>Forward The Batch Last Message (with forward tag)\nor Give Me Batch Last Message Link From Your Database Channel.</b>",
                 chat_id=message.from_user.id,
                 filters=(filters.forwarded | (filters.text & ~filters.forwarded)),
                 timeout=60,
@@ -53,13 +53,13 @@ async def batch(client: Bot, message: Message):
         [
             [
                 InlineKeyboardButton(
-                    "Bagikan Link", url=f"https://telegram.me/share/url?url={link}"
+                    "Share Link", url=f"https://telegram.me/share/url?url={link}"
                 )
             ]
         ]
     )
     await second_message.reply_text(
-        f"Link: {link}",
+        f"<b>Here is your link:</b>\n\n`{link}`",
         quote=True,
         reply_markup=reply_markup,
     )
