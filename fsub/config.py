@@ -5,6 +5,8 @@ from logging import basicConfig, INFO, WARNING, getLogger, Logger
 
 load_dotenv("config.env")
 
+API_ID = getenv("API_ID")
+API_HASH = getenv("API_HASH")
 BOT_TOKEN = getenv("BOT_TOKEN")
 
 CHANNEL_DB = int(getenv("CHANNEL_DB"))
