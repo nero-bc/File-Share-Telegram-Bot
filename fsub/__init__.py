@@ -62,7 +62,7 @@ class Bot(Client):
         try:
             db_channel = await self.get_chat(CHANNEL_DB)
             self.db_channel = db_channel
-            await self.send_message(chat_id=db_channel.id, text="Bot Aktif!\n\n")
+            await self.send_message(chat_id=db_channel.id, text="**Bot Started**!\n\n")
             self.LOGGER(__name__).info(
                 "CHANNEL_DB Detected!\n"
                 f"  Title: {db_channel.title}\n"
