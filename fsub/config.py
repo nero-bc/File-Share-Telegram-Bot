@@ -25,21 +25,10 @@ while True:
         break
     FORCE_SUB_[FSUB_TOTAL] = int(value)
     FSUB_TOTAL += 1
+‌‌
+START_MESSAGE = getenv("START_MESSAGE")‌‌
+FORCE_MESSAGE = getenv("FORCE_MESSAGE")‌‌
 
-START_MESSAGE = getenv(
-    "START_MESSAGE",
-    "<b>Hello {mention}!</b>"
-    "\n\n"
-    "<b>I can save private files on a specific Channel and other users can access them from a special link.</b>",
-)‌‌
-FORCE_MESSAGE = getenv(
-    "FORCE_MESSAGE",
-    "<b>Hello {mention}!</b>"
-    "\n\n"
-    "<b>You must join the Channel/Group first to see the files I share.</b>"
-    "\n\n"
-    "Please join the channel/group first.</b>",
-)‌‌
 
 ADMINS = [int(x) for x in (getenv("ADMINS").split())]
     
